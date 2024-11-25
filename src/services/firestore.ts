@@ -5,7 +5,6 @@ import { User } from '../models/User';
 export const addUserToFirestore = async (user: User) => {
     try {
         const docRef = await addDoc(collection(db, 'users'), user);
-        console.log('User added to Firestore with ID:', docRef.id);
         return docRef.id;
     } catch (error) {
         console.error('Error adding user to Firestore:', error);
@@ -20,7 +19,6 @@ export const getUser = async (userId: string): Promise<User | null> => {
         if (docSnap.exists()) {
             return docSnap.data() as User;
         } else {
-            console.log('No such document!');
             return null;
         }
     } catch (error) {
