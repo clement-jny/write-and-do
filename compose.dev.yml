@@ -1,0 +1,17 @@
+services:
+  write-and-do_app_dev:
+    container_name: write-and-do_app_dev
+    build:
+      context: .
+      target: dev
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/write-and-do
+    # env_file:
+    #   - .env
+    environment:
+      NODE_ENV: development
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
