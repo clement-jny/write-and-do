@@ -39,9 +39,8 @@ export default function TaskCard({
               <TagComp key={tag.id} tag={tag} />
             ))}
           </div>
-          <div className="flex gap-1 self-end ml-2">
+          <div className="flex gap-1 self-end ml-2 hover:cursor-pointer">
             <Pen size={24} onClick={() => editTask()} />
-
             <Trash2 size={24} color="#9E1568" onClick={() => deleteTask()} />
           </div>
         </div>
