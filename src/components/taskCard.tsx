@@ -36,7 +36,7 @@ export default function TaskCard({
         <div className="flex flex-row justify-between">
           <div id="tags" className="flex flex-row gap-3">
             {tags?.map((tag) => (
-              <TagComp key={tag.id} tag={tag} />
+              <TagComp key={tag.uid} tag={tag} />
             ))}
           </div>
           <div className="flex gap-1 self-end ml-2 hover:cursor-pointer">

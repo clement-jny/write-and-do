@@ -12,29 +12,29 @@ export default function ViewCard({ title }: ViewCardProps) {
     {
       title: "Faire une raclette",
       tags: [
-        { id: 1, label: "Cuisine", color: "#C33C54" },
-        { id: 2, label: "Course", color: "#1446A0" },
-        { id: 3, label: "Course", color: "#1446A0" },
+        { uid: "1", label: "Cuisine", color: "#C33C54", userUid:"toto" },
+        { uid: "2", label: "Course", color: "#1446A0", userUid:"toto" },
+        { uid: "3", label: "Course", color: "#1446A0", userUid:"toto" },
       ],
       notes: [
-        { id: 1, description: "Acheter du fromage" },
-        { id: 2, description: "Acheter des pommes de terre" },
+        { uid: "1", description: "Acheter du fromage", creationDate: "2020", userUid:"toto" },
+        { uid: "2", description: "Acheter des pommes de terre", creationDate: "2020", userUid:"toto" },
       ],
       dateCreate: new Date("2021-10-10"),
     },
     {
       title: "Faire une fondue",
       tags: [
-        { id: 1, label: "Cuisine", color: "#C33C54" },
-        { id: 2, label: "Course", color: "#1446A0" },
+        { uid: "1", label: "Cuisine", color: "#C33C54", userUid:"toto" },
+        { uid: "2", label: "Course", color: "#1446A0", userUid:"toto" },
       ],
       dateCreate: new Date("2021-10-10"),
     },
     {
       title: "Faire une tartiflette",
       tags: [
-        { id: 1, label: "Cuisine", color: "#C33C54" },
-        { id: 2, label: "Course", color: "#1446A0" },
+        { uid: "1", label: "Cuisine", color: "#C33C54", userUid:"toto" },
+        { uid: "2", label: "Course", color: "#1446A0", userUid:"toto" },
       ],
       dateCreate: new Date("2021-10-10"),
     },
