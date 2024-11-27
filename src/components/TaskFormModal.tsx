@@ -19,83 +19,117 @@ interface TaskFormModalProps {
     taskUid?: string;
 }
 
+interface User {
+    uid: string;
+}
+
+const fetchTags = async (user: User, setTags: (tags: Tag[]) => void) => {
+    if (user) {
+        const uid = user.uid;
+        const fetchedTags = await getUserTags(uid);
+        setTags(fetchedTags || []);
+    }
+};
+
+
+const handleTaskSubmit = async (
+    formData: FormData,
+    userUid: string,
+    selectedTags: string[],
+    tags: Tag[],
+    card: Task | null,
+    onClose: () => void
+) => {
+    const data: Task = {
+        title: formData.get("title") as string,
+        startDate: new Date(formData.get("startDate") as string),
+        endDate: new Date(formData.get("endDate") as string),
+        status: 'open',
+        userUid: userUid,
+        tags: selectedTags.map((tagUid) => tags.find((tag) => tag.uid === tagUid)!),
+        creationDate: new Date()
+    };
+
+    if (card) {
+        await updateTask(card.uid as string, data);
+    } else {
+        await createTask(data);
+    }
+
+    onClose();
+};
+
+
+const handleNoteSubmit = async (
+    formData: FormData,
+    userUid: string,
+    taskUid: string | undefined,
+    card: Note | null,
+    onClose: () => void
+) => {
+    const data: Note = {
+        description: formData.get("description") as string,
+        creationDate: new Date(),
+        userUid: userUid,
+        taskUid: taskUid || ''
+    };
+
+    if (card) {
+        await updateNote(card.uid as string, data);
+    } else {
+        await createNote(data);
+    }
+
+    onClose();
+};
+
 export default function TaskFormModal({ isOpen, onClose, formType, card, taskUid }: TaskFormModalProps) {
-  const [tags, setTags] = useState<Tag[]>([]);
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const { user } = useUser();
+    const [tags, setTags] = useState<Tag[]>([]);
+    const [selectedTags, setSelectedTags] = useState<string[]>([]);
+    const { user } = useUser();
 
-  useEffect(() => {
-    async function fetchTags() {
-      const uid = user.uid;
-      const fetchedTags = await getUserTags(uid);
-      setTags(fetchedTags || []);
-    }
-
-    if (formType === 'task') {
-      fetchTags();
-    }
-  }, [formType, user]);
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    const formData = new FormData(event.target as HTMLFormElement);
-    const uid = user?.uid;
-
-    try {
-      if (formType === 'task') {
-        const data: Task = {
-          title: formData.get("title") as string,
-          startDate: new Date(formData.get("startDate") as string),
-          endDate: new Date(formData.get("endDate") as string),
-          status: 'open',
-          userUid: uid!,
-          tags: selectedTags.map((tagUid) => tags.find((tag) => tag.uid === tagUid)!),
-          creationDate: new Date()
-        };
-
-        if (card) {
-          await updateTask(card.uid as string, data);
-        } else {
-          await createTask(data);
+    useEffect(() => {
+        if (formType === 'task' && user) {
+            fetchTags(user as User, setTags);
         }
-      } else {
-        const data: Note = {
-          description: formData.get("description") as string,
-          creationDate: new Date(),
-          userUid: uid!,
-          taskUid: taskUid || ''
-        };
+    }, [formType, user]);
 
-        if (card) {
-          await updateNote(card.uid as string, data);
-        } else {
-          await createNote(data);
+    const handleSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
+        if (!user) return;
+
+        const formData = new FormData(event.target as HTMLFormElement);
+        const uid = user.uid;
+
+        try {
+            if (formType === 'task') {
+                await handleTaskSubmit(formData, uid, selectedTags, tags, card as Task, onClose);
+            } else {
+                await handleNoteSubmit(formData, uid, taskUid, card as Note, onClose);
+            }
+        } catch (error) {
+            console.error("Error during add or update:", error);
         }
-      }
-      onClose();
-    } catch (error) {
-      console.error("Error during add or update:", error);
-    }
-  };
+    };
 
-  return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{formType === 'task' ? 'Add task' : 'Add note'}</DialogTitle>
-        </DialogHeader>
-        <form onSubmit={handleSubmit}>
-          {formType === 'task' ? (
-            <TaskFormFields card={card} tags={tags} selectedTags={selectedTags} setSelectedTags={setSelectedTags} />
-          ) : (
-            <NoteFormFields card={card} />
-          )}
-          <DialogFooter>
-            <Button type="submit">{card ? 'Update' : 'Add'}</Button>
-            <Button type="button" variant="outline" onClick={onClose}>Cancel</Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
-  );
+    return (
+        <Dialog open={isOpen} onOpenChange={onClose}>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>{formType === 'task' ? 'Add task' : 'Add note'}</DialogTitle>
+                </DialogHeader>
+                <form onSubmit={handleSubmit}>
+                    {formType === 'task' ? (
+                        <TaskFormFields card={card as Task | undefined} tags={tags} selectedTags={selectedTags} setSelectedTags={setSelectedTags} />
+                    ) : (
+                        <NoteFormFields card={card as Note | undefined} />
+                    )}
+                    <DialogFooter>
+                        <Button type="submit">{card ? 'Update' : 'Add'}</Button>
+                        <Button type="button" variant="outline" onClick={onClose}>Cancel</Button>
+                    </DialogFooter>
+                </form>
+            </DialogContent>
+        </Dialog>
+    );
 }

@@ -3,7 +3,7 @@ import { Input } from "../ui/input";
 import { Note } from "@/models/Note";
 
 interface NoteFormFieldsProps {
-    card: Note;
+    card: Note | undefined;
 }
 
 export default function NoteFormFields({ card }: NoteFormFieldsProps) {
