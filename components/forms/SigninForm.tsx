@@ -25,7 +25,7 @@ const SigninForm: React.FC = () => {
           <label>Email</label>
           <input
             type="email"
-            {...register("email", { required: "Email is required" })}
+            {...register("email", { required: "Merci de renseigner un Email" })}
             className="input"
           />
           {errors.email && <span>{errors.email.message}</span>}
@@ -34,12 +34,12 @@ const SigninForm: React.FC = () => {
           <label>Password</label>
           <input
             type="password"
-            {...register("password", { required: "Password is required", minLength: { value: 6, message: "Password must be at least 6 characters" } })}
+            {...register("password", { required: "Merci de renseigner un mot de passe.", minLength: { value: 6, message: "Le mot de passe doit contenir au minimum 6 caractères." } })}
             className="input"
           />
           {errors.password && <span>{errors.password.message}</span>}
         </div>
-        <button type="submit" className="btn">Sign In</button>
+        <button type="submit" className="btn">Connexion</button>
       </form>
       <ToastContainer />
     </div>

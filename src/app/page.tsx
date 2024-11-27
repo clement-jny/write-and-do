@@ -1,5 +1,7 @@
 import Head from 'next/head';
 import SignupForm from '../../components/forms/SignupForm';
+import './globals.css';
+import FAQPage from '../../components/FAQ';
 
 const HomePage: React.FC = () => {
     return (
@@ -13,7 +15,7 @@ const HomePage: React.FC = () => {
             <main>
                 <h1>Bienvenue sur Write and DO</h1>
                 <h1>Sign Up</h1>
-                <SignupForm />
+                <FAQPage />
             </main>
         </div>
     );
