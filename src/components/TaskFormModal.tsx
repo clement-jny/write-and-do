@@ -11,7 +11,7 @@ import NoteFormFields from "@/components/forms/NoteFormFields";
 import { useUser } from '../contexts/UserContext';
 import { getUserTags } from "@/hooks/useUser";
 
-interface TaskFormModalProps {
+interface FormModalProps {
     isOpen: boolean;
     onClose: () => void;
     formType: 'task' | 'note';
@@ -30,7 +30,6 @@ const fetchTags = async (user: User, setTags: (tags: Tag[]) => void) => {
         setTags(fetchedTags || []);
     }
 };
-
 
 const handleTaskSubmit = async (
     formData: FormData,
@@ -59,7 +58,6 @@ const handleTaskSubmit = async (
     onClose();
 };
 
-
 const handleNoteSubmit = async (
     formData: FormData,
     userUid: string,
@@ -83,7 +81,7 @@ const handleNoteSubmit = async (
     onClose();
 };
 
-export default function TaskFormModal({ isOpen, onClose, formType, card, taskUid }: TaskFormModalProps) {
+export default function FormModal({ isOpen, onClose, formType, card, taskUid }: FormModalProps) {
     const [tags, setTags] = useState<Tag[]>([]);
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
     const { user } = useUser();
@@ -132,4 +130,4 @@ export default function TaskFormModal({ isOpen, onClose, formType, card, taskUid
             </DialogContent>
         </Dialog>
     );
-}
+};
