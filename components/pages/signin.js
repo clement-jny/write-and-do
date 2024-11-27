@@ -1,34 +1,80 @@
-import { useState } from 'react';
+"use client"
 
-function Signin() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
 
-  const handleSignin = async (e) => {
-    e.preventDefault();
-    console.log('Email:', email, 'Password:', password);
-  };
+import { toast } from "@/components/hooks/use-toast"
+import { Button } from "@/components/ui/button"
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+
+const SigninSchema = z.object({
+  email: z.string().email({ message: "Invalid email address." }),
+  password: z.string().min(6, { message: "Password must be at least 6 characters." }),
+})
+
+export function SigninForm() {
+  const form = useForm({
+    resolver: zodResolver(SigninSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  })
+
+  function onSubmit(data) {
+    toast({
+      title: "Sign in successful!",
+      description: (
+        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+        </pre>
+      ),
+    })
+  }
 
   return (
-    <div>
-      <h2>Sign In</h2>
-      <form onSubmit={handleSignin}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input placeholder="email@example.com" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        <input
-          type="password"
-          placeholder="Mot de passe"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <Input type="password" placeholder="********" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        <button type="submit">Connexion</button>
+        <Button type="submit">Sign In</Button>
       </form>
-    </div>
-  );
+    </Form>
+  )
 }
 
-export default Signin;
+export default SigninForm;
