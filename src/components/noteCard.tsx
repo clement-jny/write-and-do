@@ -1,7 +1,9 @@
+"use client";
+
 import { CircleDot, Pen, Trash2 } from "lucide-react";
 import React from "react";
 
-interface NoteCardProps {
+export interface NoteCardProps {
   description: string;
   dateCreate: Date;
 }
