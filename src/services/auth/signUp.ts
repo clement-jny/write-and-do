@@ -1,6 +1,6 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
-import { addUserToFirestore } from '../firestore';
+import { createUser } from '../../hooks/useUser';
 import { User } from '../../models/User';
 
 export const signUp = async (email: string, password: string) => {
@@ -10,13 +10,10 @@ export const signUp = async (email: string, password: string) => {
 
         const newUser: User = {
             uid: user.uid,
-            email,
-            tasks: [],
-            notes: [],
-            tags: []
+            email
         };
 
-        await addUserToFirestore(newUser);
+        await createUser(newUser);
         return user;
     } catch (error) {
         console.error('Error signing up:', error);

@@ -1,9 +1,11 @@
-import { Note } from "./Note"
+import { Tag } from "./Tag"
 
-export type Task = Note & {
+export type Task = {
+    uid?: string,
     title: string,
     startDate: Date,
     endDate: Date,
     status: 'open' | 'close',
-    notes?: Note[]
+    tags?: Tag[],
+    userUid: string
 }
