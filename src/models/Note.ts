@@ -1,7 +1,7 @@
-import { Tag } from "./Tag"
-
 export type Note = {
-    id: number,
+    uid?: string,
     description: string,
-    tags?: Tag[]
+    creationDate: string,
+    taskUid?: string,
+    userUid: string
 }
