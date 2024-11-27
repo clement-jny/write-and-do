@@ -14,7 +14,6 @@ const FAQ = () => {
             question: "Comment éditer une tâche ?",
             answer: "Pour éditer une tâche, cliquez sur l'icône de crayon à côté de la tâche que vous souhaitez modifier."
         }
-        // Ajoutez plus de questions et réponses ici
     ];
 
     return (
