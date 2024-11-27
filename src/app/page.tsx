@@ -1,8 +1,7 @@
 import Head from 'next/head';
-import SignupForm from '../../components/pages/signup.js';
-// import styles from './page.module.css';
+import SignupForm from '../../components/forms/SignupForm';
 
-const HomePage = () => {
+const HomePage: React.FC = () => {
     return (
         <div>
             <Head>
@@ -12,10 +11,8 @@ const HomePage = () => {
             </Head>
 
             <main>
-                <h1>
-                    Bienvenue sur Write and DO
-                </h1>
-                <h1>Sign Up</h1> 
+                <h1>Bienvenue sur Write and DO</h1>
+                <h1>Sign Up</h1>
                 <SignupForm />
             </main>
         </div>
