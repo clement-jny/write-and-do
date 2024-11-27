@@ -1,8 +1,8 @@
 import FAQ from '../components/FAQ';
 
-const FAQPage = () => {
+const FAQPage: React.FC = () => {
     return (
-        <div>
+        <div className="container">
             <FAQ />
         </div>
     );
