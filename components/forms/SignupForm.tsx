@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -19,27 +19,43 @@ const SignupForm: React.FC = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div>
-          <label>Email</label>
+    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <div className="form-group">
+          <label className="block text-gray-700 font-semibold mb-2" htmlFor="email">
+            Email
+          </label>
           <input
+            id="email"
             type="email"
-            {...register("email", { required: "Email is required" })}
-            className="input"
+            {...register("email", { required: "Merci de renseigner un Email" })}
+            className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500 ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
           />
-          {errors.email && <span>{errors.email.message}</span>}
+          {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
         </div>
-        <div>
-          <label>Password</label>
+
+        <div className="form-group">
+          <label className="block text-gray-700 font-semibold mb-2" htmlFor="password">
+            Password
+          </label>
           <input
+            id="password"
             type="password"
-            {...register("password", { required: "Password is required", minLength: { value: 6, message: "Password must be at least 6 characters" } })}
-            className="input"
+            {...register("password", {
+              required: "Merci de renseigner un mot de passe",
+              minLength: { value: 6, message: "Le mot de passe doit contenir au minimum 6 caractères." }
+            })}
+            className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500 ${errors.password ? 'border-red-500' : 'border-gray-300'}`}
           />
-          {errors.password && <span>{errors.password.message}</span>}
+          {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
         </div>
-        <button type="submit" className="btn">Sign Up</button>
+
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300"
+        >
+          S'inscrire
+        </button>
       </form>
       <ToastContainer />
     </div>
