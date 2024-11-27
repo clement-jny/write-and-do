@@ -34,7 +34,7 @@ export default function TaskCard({
     >
       <div id="task" className="flex flex-col gap-2">
         <div className="flex flex-row justify-between">
-          <div id="tags" className="flex flex-row gap-3">
+          <div id="tags" className="flex flex-row gap-1">
             {tags?.map((tag) => (
               <TagComp key={tag.uid} tag={tag} />
             ))}
