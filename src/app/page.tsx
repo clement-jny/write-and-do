@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import SignupForm from '../../components/pages/signup.js';
 // import styles from './page.module.css';
 
 const HomePage = () => {
@@ -14,9 +15,8 @@ const HomePage = () => {
                 <h1>
                     Bienvenue sur Write and DO
                 </h1>
-                <p>
-                    Votre gestionnaire de tâches.
-                </p>
+                <h1>Sign Up</h1> 
+                <SignupForm />
             </main>
         </div>
     );
