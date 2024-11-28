@@ -12,13 +12,10 @@ export interface TaskCardProps {
   tags?: Tag[];
   notes?: Note[];
   uid: string;
+  onClick: () => void;
 }
 
-export default function TaskCard({ title, tags, notes, uid }: TaskCardProps) {
-  const editTask = () => {
-    console.log("edit task");
-  };
-
+export default function TaskCard({ title, tags, notes, uid, onClick }: TaskCardProps) {
   const deleteT = async () => {
     await deleteTask(uid);
   };
@@ -27,6 +24,7 @@ export default function TaskCard({ title, tags, notes, uid }: TaskCardProps) {
     <div
       id="content"
       className="flex flex-col w-fit h-32 bg-[#F1EEEF] rounded-lg p-3 justify-between"
+      onClick={onClick}
     >
       <div id="task" className="flex flex-col gap-2">
         <div className="flex flex-row justify-between">
@@ -35,8 +33,8 @@ export default function TaskCard({ title, tags, notes, uid }: TaskCardProps) {
               <TagComp key={tag.uid} tag={tag} />
             ))}
           </div>
-          <div className="flex gap-1 self-end ml-2 hover:cursor-pointer">
-            <Pen size={24} onClick={() => editTask()} />
+          <div className="flex gap-1 self-end ml-2 hover:cursor-pointer" onClick={(e) => e.stopPropagation()}>
+            <Pen size={24} onClick={onClick} />
             <Trash2 size={24} color="#9E1568" onClick={() => deleteT()} />
           </div>
         </div>
