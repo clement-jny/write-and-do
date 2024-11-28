@@ -8,17 +8,11 @@ import { Note } from "@/models/Note";
 
 export interface TaskCardProps {
   title: string;
-  dateCreate: Date;
   tags?: Tag[];
   notes?: Note[];
 }
 
-export default function TaskCard({
-  title,
-  dateCreate,
-  tags,
-  notes,
-}: TaskCardProps) {
+export default function TaskCard({ title, tags, notes }: TaskCardProps) {
   const editTask = () => {
     console.log("edit task");
   };
@@ -53,7 +47,6 @@ export default function TaskCard({
 
       <div id="footer" className="flex justify-between items-center mt-auto">
         <div id="notes">{notes ? notes.length + " notes" : "0 note"}</div>
-        <div id="dateCreate">{dateCreate.toLocaleDateString()}</div>
       </div>
     </div>
   );

@@ -1,8 +1,12 @@
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
 import AddTaskOrNoteButton from "./ui/addTaskOrNote";
-import { TaskCardProps } from "./taskCard";
 import TaskCard from "./taskCard";
-import NoteCard, { NoteCardProps } from "./noteCard";
+import NoteCard from "./noteCard";
+import { Task } from "@/models/Task";
+import { Note } from "@/models/Note";
+import { getUserNotes, getUserTasks } from "@/hooks/useUser";
 
 interface ViewCardProps {
   title: string;
@@ -10,62 +14,20 @@ interface ViewCardProps {
 }
 
 export default function ViewCard({ title, isTasks }: ViewCardProps) {
-  const tasks: TaskCardProps[] = [
-    {
-      title: "Faire une raclette",
-      tags: [
-        { uid: "1", label: "Cuisine", color: "#C33C54", userUid: "toto" },
-        { uid: "2", label: "Course", color: "#1446A0", userUid: "toto" },
-        { uid: "3", label: "Course", color: "#1446A0", userUid: "toto" },
-      ],
-      notes: [
-        {
-          uid: "1",
-          description: "Acheter du fromage",
-          creationDate: "2020",
-          userUid: "toto",
-        },
-        {
-          uid: "2",
-          description: "Acheter des pommes de terre",
-          creationDate: "2020",
-          userUid: "toto",
-        },
-      ],
-      dateCreate: new Date("2021-10-10"),
-    },
-    {
-      title: "Faire une fondue",
-      tags: [
-        { uid: "1", label: "Cuisine", color: "#C33C54", userUid: "toto" },
-        { uid: "2", label: "Course", color: "#1446A0", userUid: "toto" },
-      ],
-      dateCreate: new Date("2021-10-10"),
-    },
-    {
-      title: "Faire une tartiflette",
-      tags: [
-        { uid: "1", label: "Cuisine", color: "#C33C54", userUid: "toto" },
-        { uid: "2", label: "Course", color: "#1446A0", userUid: "toto" },
-      ],
-      dateCreate: new Date("2021-10-10"),
-    },
-    {
-      title: "Faire un mont d'or",
-      dateCreate: new Date("2021-10-10"),
-    },
-  ];
+  const [tasks, setTasks] = React.useState<Task[]>([]);
+  const [notes, setNotes] = React.useState<Note[]>([]);
 
-  const notes: NoteCardProps[] = [
-    {
-      description: "Acheter du fromage",
-      dateCreate: new Date("2021-10-10"),
-    },
-    {
-      description: "Acheter des pommes de terre",
-      dateCreate: new Date("2021-10-10"),
-    },
-  ];
+  useEffect(() => {
+    getData();
+  });
+
+  const getData = async (): Promise<void> => {
+    if (isTasks) {
+      setTasks(await getUserTasks("DBw999Lk9EZMvGxYXMdj7ox1qOI2"));
+    } else {
+      setNotes(await getUserNotes("DBw999Lk9EZMvGxYXMdj7ox1qOI2"));
+    }
+  };
 
   return (
     <div className="mt-5 mx-5">
@@ -79,9 +41,15 @@ export default function ViewCard({ title, isTasks }: ViewCardProps) {
       <div className="flex justify-between mt-5">
         <div id="cards" className="flex gap-3 flex-wrap">
           {isTasks
-            ? tasks.map((task) => <TaskCard key={task.title} {...task} />)
+            ? tasks.map((task) => (
+                <TaskCard key={task.uid} title={task.title} />
+              ))
             : notes.map((note) => (
-                <NoteCard key={note.description} {...note} />
+                <NoteCard
+                  key={note.uid}
+                  description={note.description}
+                  dateCreate={new Date(note.creationDate)}
+                />
               ))}
         </div>
       </div>

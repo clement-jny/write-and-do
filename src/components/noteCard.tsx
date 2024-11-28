@@ -28,7 +28,7 @@ export default function NoteCard({ description, dateCreate }: NoteCardProps) {
             id="title"
             className="font-medium text-xl flex items-center gap-2"
           >
-            <CircleDot color="#96BE8C" size={20} />
+            <CircleDot color="#473198" size={20} />
             {dateCreate.toLocaleDateString()}
           </div>
           <div className="flex gap-1 self-end ml-2">
