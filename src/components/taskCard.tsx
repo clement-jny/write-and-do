@@ -5,20 +5,22 @@ import TagComp from "./ui/tag";
 import { CircleDot, Pen, Trash2 } from "lucide-react";
 import { Tag } from "@/models/Tag";
 import { Note } from "@/models/Note";
+import { deleteTask } from "@/hooks/useTask";
 
 export interface TaskCardProps {
   title: string;
   tags?: Tag[];
   notes?: Note[];
+  uid: string;
 }
 
-export default function TaskCard({ title, tags, notes }: TaskCardProps) {
+export default function TaskCard({ title, tags, notes, uid }: TaskCardProps) {
   const editTask = () => {
     console.log("edit task");
   };
 
-  const deleteTask = () => {
-    console.log("delete task");
+  const deleteT = async () => {
+    await deleteTask(uid);
   };
 
   return (
@@ -35,7 +37,7 @@ export default function TaskCard({ title, tags, notes }: TaskCardProps) {
           </div>
           <div className="flex gap-1 self-end ml-2 hover:cursor-pointer">
             <Pen size={24} onClick={() => editTask()} />
-            <Trash2 size={24} color="#9E1568" onClick={() => deleteTask()} />
+            <Trash2 size={24} color="#9E1568" onClick={() => deleteT()} />
           </div>
         </div>
 

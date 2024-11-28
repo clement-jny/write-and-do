@@ -42,13 +42,14 @@ export default function ViewCard({ title, isTasks }: ViewCardProps) {
         <div id="cards" className="flex gap-3 flex-wrap">
           {isTasks
             ? tasks.map((task) => (
-                <TaskCard key={task.uid} title={task.title} />
+                <TaskCard key={task.uid} title={task.title} uid={task.uid} />
               ))
             : notes.map((note) => (
                 <NoteCard
                   key={note.uid}
                   description={note.description}
                   dateCreate={new Date(note.creationDate)}
+                  uid={note.uid}
                 />
               ))}
         </div>
