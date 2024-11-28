@@ -4,22 +4,35 @@ import { DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
-import { useState } from "react";
-import { useUser } from "@/contexts/UserContext";
+import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { updateUser } from "@/hooks/useUser";
 
-export const UserSettingDialog = () => {
-  const { user } = useUser();
+type UserSettingDialogProps = {
+  userUid: string | undefined;
+  userLastname: string | undefined;
+  userFirstname: string | undefined;
+};
+
+export const UserSettingDialog = ({
+  userUid,
+  userLastname,
+  userFirstname,
+}: UserSettingDialogProps) => {
   const { toast } = useToast();
 
-  const [lastname, setLastname] = useState(user?.lastname);
-  const [firstname, setFirstname] = useState(user?.firstname);
+  const [lastname, setLastname] = useState("");
+  const [firstname, setFirstname] = useState("");
+
+  useEffect(() => {
+    setLastname(userLastname!);
+    setFirstname(userFirstname!);
+  }, [userLastname, userFirstname]);
 
   const handleSubmit = async () => {
     console.log(lastname, firstname);
 
-    // await updateUser(user?.uid, { lastname, firstname });
+    await updateUser(userUid!, { lastname, firstname });
 
     toast({
       description: "Informations updated",

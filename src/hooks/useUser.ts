@@ -1,4 +1,4 @@
-import { createDocument, getDocument, getDocumentsByField, updateDocument } from '../services/firestore';
+import { createDocument, getDocumentsByField, updateDocument } from '../services/firestore';
 import { User } from '@/models/User';
 import { Tag } from '@/models/Tag';
 import { Task } from '@/models/Task';

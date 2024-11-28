@@ -7,7 +7,7 @@ import {
   useState,
   ReactNode,
 } from "react";
-import { onAuthStateChanged, User as FirebaseUser } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../services/firebase";
 import { User } from "@/models/User";
 import { getUserInfos } from "@/hooks/useUser";
