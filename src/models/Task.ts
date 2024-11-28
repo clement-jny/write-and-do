@@ -7,5 +7,6 @@ export type Task = {
     endDate: Date,
     status: 'open' | 'close',
     tags?: Tag[],
-    userUid: string
+    userUid: string,
+    creationDate: Date
 }
