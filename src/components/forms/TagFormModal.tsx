@@ -1,16 +1,18 @@
+"use client";
+
 import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from './ui/dialog';
-import { Button } from './ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '../ui/dialog';
+import { Button } from '../ui/button';
 import { useUser } from '@/contexts/UserContext';
 import { createTag } from '@/hooks/useTag';
 import { Tag } from '@/models/Tag';
 
-interface TagFormDialogProps {
+interface TagFormModalProps {
     isOpen: boolean;
     onClose: () => void;
 }
 
-export default function TagFormDialog({ isOpen, onClose }: TagFormDialogProps) {
+export default function TagFormModal({ isOpen, onClose }: TagFormModalProps) {
     const { user } = useUser();
     const [label, setLabel] = useState<string>('');
     const [color, setColor] = useState<string>('');
