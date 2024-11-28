@@ -3,25 +3,34 @@
 import { Plus } from "lucide-react";
 import {
   SidebarGroup,
-  SidebarGroupAction,
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuItem,
 } from "./ui/sidebar";
 import { Tag } from "@/models/Tag";
-import { Checkbox } from "./ui/checkbox";
 import { useEffect, useState } from "react";
-
-const tags: Tag[] = [
-  { id: 1, label: "Personal", color: "blue" },
-  { id: 2, label: "Work", color: "green" },
-  { id: 3, label: "Urgent", color: "red" },
-  { id: 4, label: "Shopping", color: "yellow" },
-];
+import { getUserTags } from "@/hooks/useUser";
+import { Dialog, DialogTrigger } from "./ui/dialog";
+import { Button } from "./ui/button";
+import { AddTagDialog } from "./add-tag-dialog";
+import { Checkbox } from "./ui/checkbox";
+import { useUser } from "@/contexts/UserContext";
 
 export const TagSidebar = () => {
-  const [selectedTags, setSelectedTags] = useState<number[]>([1, 3]);
+  const { user } = useUser();
+
+  const [userTags, setUserTags] = useState<Tag[]>([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
+  useEffect(() => {
+    const getTags = async () => {
+      const tags = await getUserTags(user?.uid!);
+      setUserTags(tags);
+    };
+
+    getTags();
+  }, [user]);
 
   useEffect(() => {
     console.log("Selected tags changed", selectedTags);
@@ -29,29 +38,39 @@ export const TagSidebar = () => {
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>My Tags</SidebarGroupLabel>
+      <SidebarGroupLabel>
+        <span className="text-app-primary">My Tags</span>
 
-      <SidebarGroupAction
-        title="Add tag"
-        onClick={() => console.log("add tag")}
-      >
-        <Plus /> <span className="sr-only">Add Tag</span>
-      </SidebarGroupAction>
+        <Dialog>
+          <DialogTrigger className="ml-auto" asChild>
+            <Button
+              size="icon"
+              className="text-app-primary rounded-full bg-app-secondary hover:bg-app-secondary"
+              aria-label="Add tag"
+            >
+              <Plus />
+              <span className="sr-only">Add tag</span>
+            </Button>
+          </DialogTrigger>
+
+          <AddTagDialog />
+        </Dialog>
+      </SidebarGroupLabel>
 
       <SidebarGroupContent>
         <SidebarMenu>
-          {tags.map((tag) => (
+          {userTags.map((tag) => (
             <SidebarMenuItem key={tag.label}>
               <div className="flex items-center space-x-2 mx-2 py-1">
                 <div className="flex aspect-square size-4 shrink-0 items-center justify-center">
                   <Checkbox
                     id={tag.label}
-                    checked={selectedTags.includes(tag.id)}
+                    checked={selectedTags.includes(tag.uid!)}
                     onCheckedChange={(checked) => {
                       setSelectedTags((tags) =>
                         checked
-                          ? [...tags, tag.id]
-                          : tags.filter((t) => t !== tag.id)
+                          ? [...tags, tag.uid!]
+                          : tags.filter((t) => t !== tag.uid!)
                       );
                     }}
                   />
