@@ -1,16 +1,18 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase';
-import { createUser } from '../../hooks/useUser';
-import { User } from '../../models/User';
+import { auth } from '@/services/firebase';
+import { createUser } from '@/hooks/useUser';
+import { User } from '@/models/User';
 
-export const signUp = async (email: string, password: string) => {
+export const signUp = async (firstname: string, lastname: string, email: string, password: string) => {
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
         const newUser: User = {
             uid: user.uid,
-            email
+            email,
+            firstname,
+            lastname
         };
 
         await createUser(newUser);

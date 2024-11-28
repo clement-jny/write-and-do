@@ -1,18 +1,26 @@
+"use client";
+
+import { deleteNote } from "@/hooks/useNote";
 import { CircleDot, Pen, Trash2 } from "lucide-react";
 import React from "react";
 
-interface NoteCardProps {
+export interface NoteCardProps {
   description: string;
   dateCreate: Date;
+  uid: string;
 }
 
-export default function NoteCard({ description, dateCreate }: NoteCardProps) {
+export default function NoteCard({
+  description,
+  dateCreate,
+  uid,
+}: NoteCardProps) {
   const editNote = () => {
     console.log("edit task");
   };
 
-  const deleteNote = () => {
-    console.log("delete task");
+  const deleteN = async () => {
+    await deleteNote(uid);
   };
 
   return (
@@ -26,12 +34,12 @@ export default function NoteCard({ description, dateCreate }: NoteCardProps) {
             id="title"
             className="font-medium text-xl flex items-center gap-2"
           >
-            <CircleDot color="#96BE8C" size={20} />
+            <CircleDot color="#473198" size={20} />
             {dateCreate.toLocaleDateString()}
           </div>
           <div className="flex gap-1 self-end ml-2">
             <Pen size={24} onClick={() => editNote()} />
-            <Trash2 size={24} color="#9E1568" onClick={() => deleteNote()} />
+            <Trash2 size={24} color="#9E1568" onClick={() => deleteN()} />
           </div>
         </div>
         <div id="desc" className="font-medium text-xl flex items-center gap-2">
