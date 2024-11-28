@@ -8,35 +8,40 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "./ui/sidebar";
+import { signOut } from "firebase/auth";
+import { auth } from "@/services/firebase";
+import { Dialog, DialogTrigger } from "./ui/dialog";
+import { UserSettingDialog } from "./user-setting-dialog";
+import { useUser } from "@/contexts/UserContext";
 
 export const LinkSidebar = () => {
+  const { user } = useUser();
+
   return (
     <SidebarGroup className="mt-auto">
       <SidebarGroupContent>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
-              size="sm"
-              onClick={() => console.log("go account settings")}
-            >
-              <a href="#">
-                <UserCog />
-                <span>Account</span>
-              </a>
-            </SidebarMenuButton>
+            <Dialog>
+              <DialogTrigger className="ml-auto" asChild>
+                <SidebarMenuButton size="sm">
+                  <UserCog />
+                  <span>Account</span>
+                </SidebarMenuButton>
+              </DialogTrigger>
+
+              <UserSettingDialog
+                userUid={user?.uid}
+                userLastname={user?.lastname}
+                userFirstname={user?.firstname}
+              />
+            </Dialog>
           </SidebarMenuItem>
 
           <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
-              size="sm"
-              onClick={() => console.log("logout")}
-            >
-              <a href="#">
-                <LogOut />
-                <span>Log out</span>
-              </a>
+            <SidebarMenuButton size="sm" onClick={() => signOut(auth)}>
+              <LogOut />
+              <span>Log out</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

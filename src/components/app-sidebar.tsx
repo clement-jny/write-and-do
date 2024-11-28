@@ -13,7 +13,9 @@ import { PencilLine } from "lucide-react";
 import { LinkSidebar } from "./link-sidebar";
 import { TagSidebar } from "./tag-sidebar";
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export const AppSidebar = ({
+  ...props
+}: React.ComponentProps<typeof Sidebar>) => {
   return (
     <Sidebar {...props}>
       <SidebarHeader>
@@ -49,4 +51,4 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarFooter>
     </Sidebar>
   );
-}
+};
